@@ -137,7 +137,7 @@
                             input: '#2C2C2C'
                         },
                         success: {
-                            text: '#4ade80', // Green-400
+                            text: '#4ade80', 
                             bg: 'rgba(74, 222, 128, 0.1)'
                         }
                     },
@@ -212,16 +212,21 @@
             </button>
         </nav>
 
-        <!-- Progress Bar Section (New) -->
-        <div class="px-4 py-3 bg-[#181818] border-b border-gray-800">
-            <div class="flex justify-between items-end mb-1">
-                <div class="text-xs text-wood-200 font-medium italic truncate pr-2" id="progress-msg">
+        <!-- Progress Bar Section (Styled for Prominence) -->
+        <div class="px-5 py-3 bg-[#181818] border-b border-gray-800 shadow-inner">
+            <!-- 1. Centered, Bold Message -->
+            <div class="text-center mb-2 min-h-[1.75rem]">
+                <div class="text-lg font-bold text-wood-200 tracking-wide drop-shadow-md transition-all duration-300" id="progress-msg">
                     計算中...
                 </div>
-                <div class="text-xs font-bold text-gray-300" id="progress-percent">0%</div>
             </div>
-            <div class="w-full bg-gray-700 rounded-full h-1.5 overflow-hidden">
-                <div id="main-progress-bar" class="bg-wood-200 h-1.5 rounded-full progress-transition" style="width: 0%"></div>
+            
+            <!-- 2. Progress Bar Row -->
+            <div class="flex items-center gap-3">
+                <div class="flex-1 bg-gray-700 rounded-full h-2.5 overflow-hidden shadow-inner">
+                    <div id="main-progress-bar" class="bg-gradient-to-r from-wood-400 to-wood-200 h-2.5 rounded-full progress-transition shadow" style="width: 0%"></div>
+                </div>
+                <div class="text-sm font-bold text-gray-400 w-10 text-right" id="progress-percent">0%</div>
             </div>
         </div>
     </div>
@@ -329,9 +334,7 @@
             else renderList(currentTab);
         }
 
-        // --- NEW: Global Progress Bar Logic ---
         function updateGlobalProgress() {
-            // 1. Calculate All Totals
             let totalEstimated = 0;
             let totalChecked = 0;
 
@@ -345,14 +348,12 @@
                 });
             });
 
-            // 2. Calculate Percentage
             let percentage = 0;
             if (totalEstimated > 0) {
                 percentage = Math.round((totalChecked / totalEstimated) * 100);
             }
-            if (percentage > 100) percentage = 100; // Cap at 100 just in case
+            if (percentage > 100) percentage = 100; 
 
-            // 3. Determine Comment
             let msg = "";
             if (percentage === 0) {
                 msg = "你來逛街還是來看風景?";
@@ -372,7 +373,6 @@
                 msg = "你好，乾爹";
             }
 
-            // 4. Update DOM
             const bar = document.getElementById('main-progress-bar');
             const txtMsg = document.getElementById('progress-msg');
             const txtPct = document.getElementById('progress-percent');
