@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#121212">
+    <title>旅購 | Travel Shopping List</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Auto-Generated App Icon Script (Scheme A: Dark Premium) -->
+    <script>
+        (function() {
+            // 建立 Canvas
+            const size = 512;
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+
+            // 1. 背景 (深色圓角)
+            ctx.fillStyle = '#1E1E1E';
+            roundRect(ctx, 0, 0, size, size, 120);
+            ctx.fill();
+
+            // 2. 金色邊框
+            ctx.strokeStyle = '#E2C799';
+            ctx.lineWidth = 20;
+            roundRect(ctx, 10, 10, size - 20, size - 20, 110);
+            ctx.stroke();
+
+            // 3. 購物袋
+            ctx.strokeStyle = '#E2C799';
+            ctx.lineWidth = 24;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            
+            // 袋身
+            ctx.beginPath();
+            ctx.moveTo(156, 180);
+            ctx.lineTo(356, 180);
+            ctx.lineTo(356, 400);
+            ctx.bezierCurveTo(356, 422, 338, 440, 316, 440);
+            ctx.lineTo(196, 440);
+            ctx.bezierCurveTo(174, 440, 156, 422, 156, 400);
+            ctx.lineTo(156, 180);
+            ctx.stroke();
+
+            // 提把
+            ctx.beginPath();
+            ctx.moveTo(200, 180);
+            ctx.lineTo(200, 130);
+            ctx.bezierCurveTo(200, 100, 220, 80, 256, 80);
+            ctx.bezierCurveTo(292, 80, 312, 100, 312, 130);
+            ctx.lineTo(312, 180);
+            ctx.stroke();
+
+            // 4. 飛機 (實心)
+            ctx.fillStyle = '#E2C799';
+            ctx.beginPath();
+            ctx.moveTo(320, 280);
+            ctx.lineTo(256, 240);
+            ctx.lineTo(192, 280);
+            ctx.lineTo(256, 310);
+            ctx.fill();
+
+            // 飛機尾翼線條
+            ctx.strokeStyle = '#E2C799';
+            ctx.lineWidth = 12;
+            ctx.beginPath();
+            ctx.moveTo(256, 310);
+            ctx.lineTo(256, 360);
+            ctx.lineTo(236, 350);
+            ctx.stroke();
+            
+            ctx.beginPath();
+            ctx.moveTo(256, 310);
+            ctx.lineTo(256, 360);
+            ctx.lineTo(276, 350);
+            ctx.stroke();
+
+            // 機翼線條
+            ctx.beginPath();
+            ctx.moveTo(160, 260);
+            ctx.lineTo(220, 270);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(352, 260);
+            ctx.lineTo(292, 270);
+            ctx.stroke();
+
+            // 輔助函式：畫圓角矩形
+            function roundRect(ctx, x, y, width, height, radius) {
+                ctx.beginPath();
+                ctx.moveTo(x + radius, y);
+                ctx.lineTo(x + width - radius, y);
+                ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+                ctx.lineTo(x + width, y + height - radius);
+                ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+                ctx.lineTo(x + radius, y + height);
+                ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+                ctx.lineTo(x, y + radius);
+                ctx.quadraticCurveTo(x, y, x + radius, y);
+                ctx.closePath();
+            }
+
+            // 產生 URL 並插入 Head
+            const dataUrl = canvas.toDataURL('image/png');
+            
+            // 讓 iOS Safari 抓取
+            const linkApple = document.createElement('link');
+            linkApple.rel = 'apple-touch-icon';
+            linkApple.href = dataUrl;
+            document.head.appendChild(linkApple);
+
+            // 讓 Android Chrome / 瀏覽器分頁 抓取
+            const linkIcon = document.createElement('link');
+            linkIcon.rel = 'icon';
+            linkIcon.type = 'image/png';
+            linkIcon.href = dataUrl;
+            document.head.appendChild(linkIcon);
+        })();
+    </script>
+
+    <!-- Config & Custom Styles -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        wood: {
+                            100: '#F5E6D3',
+                            200: '#E2C799', // 主色調：淺木頭
+                            300: '#CFB07E',
+                            400: '#B08D55', // 深木頭
+                        },
+                        dark: {
+                            bg: '#121212',
+                            card: '#1E1E1E',
+                            input: '#2C2C2C'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Noto Sans TC', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #121212;
+            color: #E5E5E5;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .wood-shadow {
+            box-shadow: 0 4px 14px 0 rgba(226, 199, 153, 0.3);
+        }
+        .custom-checkbox:checked {
+            background-color: #E2C799;
+            border-color: #E2C799;
+        }
+        .custom-checkbox:checked + div {
+            text-decoration: line-through;
+            color: #888;
+        }
+        .nav-active {
+            border-bottom: 2px solid #E2C799;
+            color: #E2C799 !important;
+        }
+    </style>
+</head>
+<body class="flex flex-col h-screen overflow-hidden font-sans bg-dark-bg">
+
+    <!-- Top Section Container (Fixed) -->
+    <div class="flex-none bg-dark-card shadow-md z-20">
+        <!-- Header -->
+        <header class="p-4 border-b border-gray-800 flex justify-between items-center">
+            <div>
+                <h1 class="text-xl font-bold tracking-wider text-wood-200"><i class="fa-solid fa-plane-departure mr-2"></i>旅購清單</h1>
+            </div>
+            <div class="text-xs text-gray-400 bg-dark-input px-2 py-1 rounded border border-gray-700">
+                匯率: <span id="header-rate">0.22</span>
+            </div>
+        </header>
+
+        <!-- Top Navigation -->
+        <nav class="flex justify-around items-center h-12 text-sm border-b border-gray-800">
+            <button onclick="switchTab('shopping')" class="nav-btn flex-1 h-full flex items-center justify-center text-gray-500 hover:text-wood-100 transition font-medium" data-target="shopping">
+                購物
+            </button>
+            <button onclick="switchTab('souvenir')" class="nav-btn flex-1 h-full flex items-center justify-center text-gray-500 hover:text-wood-100 transition font-medium" data-target="souvenir">
+                伴手禮
+            </button>
+            <button onclick="switchTab('proxy')" class="nav-btn flex-1 h-full flex items-center justify-center text-gray-500 hover:text-wood-100 transition font-medium" data-target="proxy">
+                代購
+            </button>
+            <button onclick="switchTab('stats')" class="nav-btn flex-1 h-full flex items-center justify-center text-gray-500 hover:text-wood-100 transition font-medium" data-target="stats">
+                <i class="fa-solid fa-chart-pie mr-1"></i>統計
+            </button>
+        </nav>
+    </div>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 overflow-y-auto no-scrollbar p-4 pb-20 relative" id="main-container">
+        <!-- Content will be injected here by JS -->
+    </main>
+
+    <!-- Floating Action Button (Add) -->
+    <button onclick="openModal()" id="fab-add" class="fixed bottom-6 right-5 bg-wood-200 text-gray-900 w-14 h-14 rounded-full flex items-center justify-center text-2xl wood-shadow z-30 transition transform active:scale-95 hidden hover:brightness-110">
+        <i class="fa-solid fa-plus"></i>
+    </button>
+
+    <!-- Modal for Adding/Editing Items -->
+    <div id="item-modal" class="fixed inset-0 bg-black bg-opacity-80 z-50 hidden flex items-center justify-center opacity-0 transition-opacity duration-300 backdrop-blur-sm">
+        <div class="bg-dark-card w-11/12 max-w-md rounded-2xl p-6 border border-gray-700 shadow-2xl transform scale-95 transition-transform duration-300" id="modal-content">
+            <h2 class="text-xl font-bold text-wood-200 mb-4" id="modal-title">新增項目</h2>
+            
+            <form id="item-form" onsubmit="saveItem(event)" class="space-y-3">
+                <input type="hidden" id="item-id">
+                
+                <div id="special-field-container" class="hidden">
+                    <label class="block text-xs text-gray-400 mb-1" id="special-label">對象</label>
+                    <input type="text" id="item-special" class="w-full bg-dark-input border border-gray-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-wood-200 transition">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">品名 *</label>
+                        <input type="text" id="item-name" required class="w-full bg-dark-input border border-gray-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-wood-200 transition">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">價格 (日幣) *</label>
+                        <input type="number" id="item-price" required class="w-full bg-dark-input border border-gray-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-wood-200 transition">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">商店名稱</label>
+                        <input type="text" id="item-shop" class="w-full bg-dark-input border border-gray-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-wood-200 transition">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">地點/城市</label>
+                        <input type="text" id="item-location" class="w-full bg-dark-input border border-gray-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-wood-200 transition">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">備註</label>
+                    <textarea id="item-notes" rows="2" class="w-full bg-dark-input border border-gray-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-wood-200 transition"></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">照片</label>
+                    <div class="flex items-center gap-3">
+                        <label for="item-photo" class="bg-gray-700 text-gray-300 px-4 py-2 rounded-lg cursor-pointer hover:bg-gray-600 transition flex items-center text-sm">
+                            <i class="fa-solid fa-camera mr-2"></i> 拍照/上傳
+                        </label>
+                        <input type="file" id="item-photo" accept="image/*" class="hidden" onchange="handleImageUpload(this)">
+                        <div id="photo-preview" class="w-10 h-10 rounded bg-gray-700 bg-cover bg-center hidden"></div>
+                        <span id="photo-status" class="text-xs text-gray-500">未選擇</span>
+                    </div>
+                    <input type="hidden" id="item-image-base64">
+                </div>
+
+                <div class="flex gap-3 mt-6 pt-2">
+                    <button type="button" onclick="closeModal()" class="flex-1 py-3 rounded-lg border border-gray-600 text-gray-300 hover:bg-gray-800 transition">取消</button>
+                    <button type="submit" class="flex-1 py-3 rounded-lg bg-wood-200 text-gray-900 font-bold hover:bg-wood-300 transition shadow-lg">儲存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        const DB_KEY = 'travelApp_v1';
+        let currentState = {
+            shopping: [],
+            souvenir: [],
+            proxy: [],
+            exchangeRate: 0.22 
+        };
+        let currentTab = 'shopping';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadData();
+            switchTab('shopping');
+        });
+
+        function loadData() {
+            const stored = localStorage.getItem(DB_KEY);
+            if (stored) {
+                currentState = JSON.parse(stored);
+            }
+            document.getElementById('header-rate').innerText = currentState.exchangeRate;
+        }
+
+        function saveData() {
+            localStorage.setItem(DB_KEY, JSON.stringify(currentState));
+            loadData();
+            if (currentTab === 'stats') renderStats();
+            else renderList(currentTab);
+        }
+
+        function switchTab(tabName) {
+            currentTab = tabName;
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                if(btn.dataset.target === tabName) {
+                    btn.classList.add('nav-active');
+                    btn.classList.remove('text-gray-500');
+                } else {
+                    btn.classList.remove('nav-active');
+                    btn.classList.add('text-gray-500');
+                }
+            });
+
+            const fab = document.getElementById('fab-add');
+            const container = document.getElementById('main-container');
+            container.innerHTML = ''; 
+
+            if (tabName === 'stats') {
+                fab.classList.add('hidden');
+                renderStats();
+            } else {
+                fab.classList.remove('hidden');
+                renderList(tabName);
+            }
+        }
+
+        function renderList(type) {
+            const container = document.getElementById('main-container');
+            const items = currentState[type];
+            
+            let title = type === 'shopping' ? '我的購物清單' : (type === 'souvenir' ? '伴手禮清單' : '代購清單');
+            let html = `<div class="sticky top-0 bg-[#121212] py-3 z-10 mb-2 border-b border-gray-800 flex justify-between items-end backdrop-blur-sm bg-opacity-95">
+                            <h2 class="text-xl font-bold text-wood-100">${title}</h2>
+                            <span class="text-xs text-gray-500">${items.length} 筆項目</span>
+                        </div>`;
+
+            if (items.length === 0) {
+                html += `
+                    <div class="flex flex-col items-center justify-center h-64 text-gray-600 mt-10">
+                        <i class="fa-solid fa-basket-shopping text-5xl mb-4 opacity-30"></i>
+                        <p>清單是空的</p>
+                        <p class="text-sm mt-2">點擊右下角 <i class="fa-solid fa-plus bg-gray-700 px-1 rounded-full text-xs"></i> 新增</p>
+                    </div>
+                `;
+            } else {
+                html += `<div class="space-y-3 pb-24">`;
+                items.forEach((item, index) => {
+                    const priceTwd = Math.round(item.price * currentState.exchangeRate).toLocaleString();
+                    const priceJpy = Number(item.price).toLocaleString();
+                    const isChecked = item.checked ? 'checked' : '';
+                    const opacityClass = item.checked ? 'opacity-40 grayscale' : '';
+                    
+                    let extraInfo = '';
+                    if (type === 'souvenir' && item.recipient) {
+                        extraInfo = `<div class="text-xs text-wood-300 mt-1 flex items-center"><i class="fa-solid fa-gift mr-1.5 w-3"></i>給: ${item.recipient}</div>`;
+                    } else if (type === 'proxy' && item.client) {
+                        extraInfo = `<div class="text-xs text-blue-300 mt-1 flex items-center"><i class="fa-solid fa-user-tag mr-1.5 w-3"></i>幫: ${item.client}</div>`;
+                    }
+
+                    let imgHtml = item.image 
+                        ? `<div class="w-20 h-20 flex-none bg-cover bg-center rounded-lg border border-gray-700" style="background-image: url('${item.image}')"></div>` 
+                        : `<div class="w-20 h-20 flex-none bg-gray-800 rounded-lg flex items-center justify-center text-gray-600 border border-gray-700"><i class="fa-solid fa-image text-xl"></i></div>`;
+
+                    html += `
+                        <div class="bg-dark-card p-3 rounded-xl shadow border border-gray-800 flex gap-3 relative overflow-hidden transition-all ${opacityClass}">
+                            ${imgHtml}
+                            <div class="flex-1 min-w-0 flex flex-col justify-between py-0.5">
+                                <div>
+                                    <div class="flex items-start justify-between">
+                                        <div class="flex items-center gap-2 w-full">
+                                            <input type="checkbox" onchange="toggleCheck('${type}', ${index})" class="custom-checkbox flex-none w-5 h-5 rounded border-gray-600 bg-gray-700 text-wood-200 focus:ring-0 cursor-pointer" ${isChecked}>
+                                            <div class="font-bold text-gray-100 truncate text-lg leading-tight">${item.name}</div>
+                                        </div>
+                                    </div>
+                                    <div class="text-wood-200 font-medium mt-1">¥ ${priceJpy} <span class="text-xs ml-1 text-gray-500 font-normal">NT$ ${priceTwd}</span></div>
+                                </div>
+                                <div>
+                                    ${item.shop ? `<div class="text-xs text-gray-500 truncate mt-1"><i class="fa-solid fa-store mr-1 w-3"></i>${item.shop} ${item.location ? `(${item.location})` : ''}</div>` : ''}
+                                    ${extraInfo}
+                                    ${item.notes ? `<div class="text-xs text-gray-500 mt-1 truncate pl-1 border-l-2 border-wood-400 opacity-80">${item.notes}</div>` : ''}
+                                </div>
+                            </div>
+                            <button onclick="deleteItem('${type}', ${index})" class="absolute bottom-2 right-2 text-gray-600 hover:text-red-400 p-2 z-10">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+            }
+            container.innerHTML = html;
+        }
+
+        function renderStats() {
+            const container = document.getElementById('main-container');
+            const calcTotal = (arr) => arr.reduce((acc, item) => acc + Number(item.price), 0);
+            
+            const shopTotal = calcTotal(currentState.shopping);
+            const souvTotal = calcTotal(currentState.souvenir);
+            const proxyTotal = calcTotal(currentState.proxy);
+            const grandTotalJpy = shopTotal + souvTotal + proxyTotal;
+            const grandTotalTwd = Math.round(grandTotalJpy * currentState.exchangeRate);
+
+            container.innerHTML = `
+                <div class="space-y-6 pt-2">
+                    <div class="bg-gradient-to-br from-wood-400 to-wood-200 p-6 rounded-2xl shadow-xl text-gray-900 relative overflow-hidden">
+                        <i class="fa-solid fa-coins absolute -right-4 -bottom-4 text-8xl opacity-20 transform rotate-12"></i>
+                        <div class="text-sm font-bold opacity-80 uppercase tracking-wide">預估總花費</div>
+                        <div class="text-4xl font-bold mt-1 tracking-tight">NT$ ${grandTotalTwd.toLocaleString()}</div>
+                        <div class="text-lg opacity-80 mt-1 font-medium">¥ ${grandTotalJpy.toLocaleString()}</div>
+                    </div>
+                    <div class="grid grid-cols-1 gap-3">
+                        <h3 class="text-gray-400 text-sm ml-1">分類統計</h3>
+                        ${statCard('購物自用', shopTotal, 'shopping', 'fa-cart-shopping')}
+                        ${statCard('伴手禮', souvTotal, 'souvenir', 'fa-gift')}
+                        ${statCard('代購', proxyTotal, 'proxy', 'fa-bag-shopping')}
+                    </div>
+                    <div class="bg-dark-card p-4 rounded-xl border border-gray-700 shadow-lg mt-4">
+                        <label class="block text-sm text-gray-400 mb-2"><i class="fa-solid fa-money-bill-transfer mr-2"></i>匯率設定 (JPY -> TWD)</label>
+                        <div class="flex gap-2">
+                            <input type="number" step="0.001" id="rate-input" value="${currentState.exchangeRate}" class="flex-1 bg-dark-input border border-gray-600 rounded px-3 py-2 text-white focus:border-wood-200 focus:outline-none">
+                            <button onclick="updateRate()" class="bg-wood-200 text-gray-900 px-4 py-2 rounded font-bold hover:bg-wood-300 transition">更新</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function statCard(title, jpy, type, icon) {
+            const twd = Math.round(jpy * currentState.exchangeRate).toLocaleString();
+            const color = type === 'shopping' ? 'text-wood-200' : (type === 'souvenir' ? 'text-green-300' : 'text-blue-300');
+            return `
+                <div class="bg-dark-card p-4 rounded-xl border border-gray-800 flex justify-between items-center">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400">
+                            <i class="fa-solid ${icon}"></i>
+                        </div>
+                        <div class="font-medium text-gray-300">${title}</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="${color} font-bold text-lg">¥ ${jpy.toLocaleString()}</div>
+                        <div class="text-xs text-gray-500">~ NT$ ${twd}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function updateRate() {
+            const newRate = parseFloat(document.getElementById('rate-input').value);
+            if (newRate > 0) {
+                currentState.exchangeRate = newRate;
+                saveData();
+                alert('匯率已更新！');
+            }
+        }
+
+        function toggleCheck(type, index) {
+            currentState[type][index].checked = !currentState[type][index].checked;
+            saveData();
+        }
+
+        function deleteItem(type, index) {
+            if(confirm('確定要刪除這個項目嗎？')) {
+                currentState[type].splice(index, 1);
+                saveData();
+            }
+        }
+
+        function openModal() {
+            const modal = document.getElementById('item-modal');
+            const modalContent = document.getElementById('modal-content');
+            const specialContainer = document.getElementById('special-field-container');
+            const specialLabel = document.getElementById('special-label');
+            
+            document.getElementById('item-form').reset();
+            document.getElementById('item-id').value = '';
+            document.getElementById('item-image-base64').value = '';
+            document.getElementById('photo-preview').style.backgroundImage = '';
+            document.getElementById('photo-preview').classList.add('hidden');
+            document.getElementById('photo-status').innerText = '未選擇';
+
+            document.getElementById('modal-title').innerText = 
+                currentTab === 'souvenir' ? '新增伴手禮' : 
+                (currentTab === 'proxy' ? '新增代購' : '新增購物項目');
+
+            if (currentTab === 'souvenir') {
+                specialContainer.classList.remove('hidden');
+                specialLabel.innerText = '收禮對象 *';
+                document.getElementById('item-special').setAttribute('required', 'true');
+            } else if (currentTab === 'proxy') {
+                specialContainer.classList.remove('hidden');
+                specialLabel.innerText = '代購對象/客戶 *';
+                document.getElementById('item-special').setAttribute('required', 'true');
+            } else {
+                specialContainer.classList.add('hidden');
+                document.getElementById('item-special').removeAttribute('required');
+            }
+
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modalContent.classList.remove('scale-95');
+                modalContent.classList.add('scale-100');
+            }, 10);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('item-modal');
+            const modalContent = document.getElementById('modal-content');
+            modal.classList.add('opacity-0');
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        function handleImageUpload(input) {
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.src = e.target.result;
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        const MAX_WIDTH = 600; 
+                        let width = img.width;
+                        let height = img.height;
+                        
+                        if (width > MAX_WIDTH) {
+                            height *= MAX_WIDTH / width;
+                            width = MAX_WIDTH;
+                        }
+                        
+                        canvas.width = width;
+                        canvas.height = height;
+                        ctx.drawImage(img, 0, 0, width, height);
+                        const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+                        
+                        document.getElementById('item-image-base64').value = dataUrl;
+                        const preview = document.getElementById('photo-preview');
+                        preview.style.backgroundImage = `url(${dataUrl})`;
+                        preview.classList.remove('hidden');
+                        document.getElementById('photo-status').innerText = '已選取';
+                    };
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function saveItem(event) {
+            event.preventDefault();
+            const newItem = {
+                id: Date.now(),
+                name: document.getElementById('item-name').value,
+                price: document.getElementById('item-price').value,
+                shop: document.getElementById('item-shop').value,
+                location: document.getElementById('item-location').value,
+                notes: document.getElementById('item-notes').value,
+                image: document.getElementById('item-image-base64').value,
+                checked: false
+            };
+
+            if (currentTab === 'souvenir') {
+                newItem.recipient = document.getElementById('item-special').value;
+            } else if (currentTab === 'proxy') {
+                newItem.client = document.getElementById('item-special').value;
+            }
+
+            currentState[currentTab].push(newItem);
+            saveData();
+            closeModal();
+        }
+    </script>
+</body>
+</html>
